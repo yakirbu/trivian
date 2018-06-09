@@ -24,7 +24,7 @@
     "axios": "^0.18.0",
     "fbjs": "^0.8.16",
     "react": "^16.3.1",
-    "react-native": "^0.55.3",
+    "react-native": "^0.55.4",
     "react-native-firebase": "^4.1.0",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-progress": "^3.5.0",
