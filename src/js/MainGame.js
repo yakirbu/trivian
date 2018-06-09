@@ -82,7 +82,7 @@ export default class MainGame extends React.Component {
             return <View></View>
         }
         else {
-            return <GameDetails user={that.state.user} />
+            return <GameDetails user={that.state.user} general={that.state.general} />
         }
     }
 
@@ -116,6 +116,7 @@ export default class MainGame extends React.Component {
 
 
     async verifyUser(phone) {
+        console.warn("verify stage 1");
         DatabaseHandler.getDataOnceWhere(["Users"], ["phone", phone], async (childSnapshot) => {
             if (childSnapshot) {
                 //already verified
@@ -125,7 +126,6 @@ export default class MainGame extends React.Component {
                 DatabaseHandler.listen("Users/" + childSnapshot.key, (us) => {
                     that.setState({
                         loading: false,
-                        verified: true,
                         user: us.val(),
                     }, () => {
                         console.warn(us);
@@ -171,6 +171,8 @@ export default class MainGame extends React.Component {
             } else {
                 // User is signed out.
                 // ...
+                if (that.state.user && that.state.user.createdAt)
+                    DatabaseHandler.detachListener("Users/" + that.state.user.createdAt);
                 that.setState({ user: {}, loading: false });
                 console.warn("user logged out")
             }

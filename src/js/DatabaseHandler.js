@@ -119,6 +119,15 @@ class DatabaseHandler {
         })
     }
 
+    static detachListener(path) {
+        if (listenNodes) {
+            var item = listenNodes.find(item => { return item === path });
+            databases[DatabaseHandler.selected].ref(item).off();
+            listenNodes = listenNodes.filter(e => e != item);
+            console.warn(item);
+        }
+    }
+
 
     //Template for a single request (not a listener)
     //path: array, callback: function()
