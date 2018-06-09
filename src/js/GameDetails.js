@@ -40,7 +40,7 @@ class GameDetails extends React.Component {
                             onLayout={(event) => { this.find_dimesions(event.nativeEvent.layout) }}>
                             <View style={styles.userProfileText}>
                                 <View style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                                    <Text style={textStyles.header}>יואל חסון</Text>
+                                    <Text style={textStyles.header}>{this.props.user.name}</Text>
                                 </View>
                                 <View style={styles.winningDetails}>
                                     <View style={[styles.userDetailsText]}>
@@ -50,7 +50,7 @@ class GameDetails extends React.Component {
                                     <View style={{ width: 1, backgroundColor: '#d4d0d0', height: '70%', alignSelf: 'center' }} />
                                     <View style={[styles.userDetailsText]}>
                                         <Text style={textStyles.smallHeader}>יתרה כוללת</Text>
-                                        <Text style={textStyles.boldBig}>₪5000</Text>
+                                        <Text style={textStyles.boldBig}>₪{this.props.user.money}</Text>
                                         <View style={textStyles.smallButt}>
                                             <Text style={[textStyles.smallHeader, { color: '#818181' }]}>משיכת כסף</Text>
                                         </View>

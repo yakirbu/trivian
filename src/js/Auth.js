@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 
@@ -10,11 +10,45 @@ import { databases, auth, DatabaseHandler } from './DatabaseHandler';
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
 
+var confirmRes;
+var that;
 class Auth extends React.Component {
-    state = {
-        name: '',
-        phone: '',
-    };
+
+    constructor(props) {
+        super(props);
+        that = this;
+        this.state = {
+            name: '',
+            phone: '',
+        }
+    }
+
+    authenticate() {
+        console.warn("checking")
+        if (that.state.phone.length === 10 && that.state.name.length > 1) {
+            auth.signInWithPhoneNumber("+972" + that.state.phone)
+                .then(confirmResult => {
+                    confirmRes = confirmResult;
+                    console.warn("succ " + confirmRes)
+                }) // save confirm result to use with the manual verification code)
+                .catch(error => console.warn(error));
+        }
+        else {
+            console.warn("You need to type phone-number & name");
+        }
+    }
+
+    verifyCode() {
+        if (confirmRes) {
+            confirmRes.confirm(verificationCode)
+                .then(user => {
+                    console.warn(user);
+                }) // User is logged in){
+                .catch(error => {
+                    console.warn(error);
+                }) // Error with verification code);
+        }
+    }
 
     render() {
         let { name, phone } = this.state;
@@ -62,10 +96,11 @@ class Auth extends React.Component {
                             />
                         </View>
 
-
-                        <LinearGradient style={[styles.centerContent, { marginTop: 15, width: '80%', height: 40, borderRadius: 20 }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
-                            <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white', fontSize: 20 }]}>הבא</Text>
-                        </LinearGradient>
+                        <TouchableOpacity style={[styles.centerContent, { marginTop: 15, width: '80%', height: 40, borderRadius: 20 }]} onPress={() => this.authenticate()}>
+                            <LinearGradient style={[styles.centerContent, { width: '100%', height: '100%', borderRadius: 20 }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
+                                <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white', fontSize: 20 }]}>הבא</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
 
                     </View>
                 </View>
