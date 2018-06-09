@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, I18nManager } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 //import { Font } from 'expo';
 
@@ -21,6 +21,8 @@ export default class App extends React.Component {
 
     this.setState({ fontLoaded: true });
     */
+
+    I18nManager.allowRTL(false);
   }
 
   render() {

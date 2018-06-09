@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
 import { auth, DatabaseHandler } from './DatabaseHandler';
+
 
 
 class GameDetails extends React.Component {
@@ -15,6 +17,7 @@ class GameDetails extends React.Component {
             fixSizeStyle: 0,
         }
     }
+
 
     find_dimesions(layout) {
         if (that.state.fixSizeStyle !== 0)
@@ -61,7 +64,27 @@ class GameDetails extends React.Component {
                         </View>
                     </View>
                     <View style={styles.gameGeneralProfile}>
-                        <Text style={styles.mainText}>Hi</Text>
+                        <View style={[styles.mainGameContainer, styles.centerContent]}>
+                            <View style={[styles.centerContent, { flex: 1.5, justifyContent: 'flex-end' }]}>
+                                <Text style={[textStyles.header]}>{"המשחק הבא"}</Text>
+                            </View>
+                            <View style={{ flex: 3, display: 'flex', flexDirection: 'row' }}>
+                                <View style={[{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' }]}>
+                                    <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
+                                        <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"יתקיים בתאריך:"}</Text>
+                                        <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>{this.props.general.gameDescription}</Text>
+                                    </View>
+                                    <Icon style={{}} name="ios-time" size={35} color="#b7b7b7" />
+                                </View>
+                                <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
+                                    <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
+                                        <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"סכום הפרס:"}</Text>
+                                        <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>₪{this.props.general.bidAmount}</Text>
+                                    </View>
+                                    <Icon name="md-trophy" size={35} color="#b7b7b7" />
+                                </View>
+                            </View>
+                        </View>
                     </View>
                 </View>
 
