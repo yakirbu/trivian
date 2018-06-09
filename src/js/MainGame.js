@@ -81,7 +81,7 @@ export default class MainGame extends React.Component {
             return <View></View>
         }
         else {
-            return <GameDetails />
+            return <GameDetails user={that.state.user} />
         }
     }
 
@@ -92,7 +92,7 @@ export default class MainGame extends React.Component {
                 <Progress.Circle size={40} color={'white'} borderWidth={4} indeterminate={true} />
             </LinearGradient>
         }
-        else if (that.state.user.id === undefined) {
+        else if (that.state.user.createdAt === undefined) {
             return <Auth setUser={(u) => that.setUser(u)} />;
         }
         else {
@@ -118,22 +118,25 @@ export default class MainGame extends React.Component {
 
         auth.onAuthStateChanged(function (user) {
             if (user) {
+                console.warn("logged-in!");
                 var userPhone = "0" + user.phoneNumber.replace("+972", "");
-
+                console.warn(userPhone);
 
                 DatabaseHandler.getDataOnceWhere(["Users"], ["phone", userPhone], (childSnapshot) => {
                     if (childSnapshot) {
                         //already verified
 
-                        console.log("verified");
+                        console.warn("verified " + childSnapshot.key);
 
                         DatabaseHandler.listen("Users/" + childSnapshot.key, (us) => {
                             that.setState({
                                 loading: false,
                                 verified: true,
                                 user: us.val(),
+                            }, () => {
+                                console.warn(us);
                             })
-                            console.log(us.name);
+
                         })
 
                     }

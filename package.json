@@ -15,7 +15,8 @@
     "ios": "react-native run-ios",
     "rename": "node ./bin/rename.js",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "android-fix": "react-native bundle –platform android –dev false –entry-file App.js –bundle-output android/app/src/main/assets/index.android.bundle –assets-dest android/app/src/main/res/"
   },
   "jest": {
     "preset": "react-native"
