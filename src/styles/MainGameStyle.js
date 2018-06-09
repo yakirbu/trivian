@@ -120,7 +120,7 @@ export default StyleSheet.create({
         height: 50,
         display: 'flex',
         justifyContent: 'flex-end',
-        fontFamily: 'assistantRegular',
+        fontFamily: 'Assistant-Regular',
         fontSize: 19,
         color: '#bfbebe',
         borderBottomColor: '#d2d2d2',

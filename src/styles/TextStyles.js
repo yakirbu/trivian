@@ -3,16 +3,16 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     header: {
         color: '#5a34bd',
-        fontFamily: 'assistantBold',
+        fontFamily: 'Assistant-Bold',
         fontSize: 23,
     },
     smallHeader: {
-        fontFamily: 'assistantBold',
+        fontFamily: 'Assistant-Bold',
         color: 'black',
         fontSize: 15
     },
     boldBig: {
-        fontFamily: 'assistantBold',
+        fontFamily: 'Assistant-Bold',
         color: '#d65390',
         fontSize: 35,
     },
@@ -25,12 +25,12 @@ export default StyleSheet.create({
         marginTop: 5
     },
     whiteBigHeader: {
-        fontFamily: 'assistantBold',
+        fontFamily: 'Assistant-Bold',
         color: 'white',
         fontSize: 40,
     },
     normalText: {
-        fontFamily: 'assistantRegular',
+        fontFamily: 'Assistant-Regular',
         color: 'black',
         fontSize: 23,
     }
