@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, AsyncStorage } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewOverflow from 'react-native-view-overflow';
 import * as Progress from 'react-native-progress';
@@ -15,6 +15,7 @@ import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
 
 var that;
+var regCounter = 0;
 export default class MainGame extends React.Component {
 
     constructor(props) {
@@ -114,6 +115,47 @@ export default class MainGame extends React.Component {
 
 
 
+    async verifyUser(phone) {
+        DatabaseHandler.getDataOnceWhere(["Users"], ["phone", phone], async (childSnapshot) => {
+            if (childSnapshot) {
+                //already verified
+
+                console.warn("verified " + childSnapshot.key);
+
+                DatabaseHandler.listen("Users/" + childSnapshot.key, (us) => {
+                    that.setState({
+                        loading: false,
+                        verified: true,
+                        user: us.val(),
+                    }, () => {
+                        console.warn(us);
+                    })
+
+                })
+
+            }
+            else {
+                console.warn("unverified");
+                const name = await AsyncStorage.getItem('username');
+                if (name !== null) {
+                    if (regCounter > 5)
+                        return;
+                    regCounter++;
+                    DatabaseHandler.createNewUser(phone, name, (succ) => {
+                        that.verifyUser(phone);
+                    });
+                }
+                else {
+                    auth.signOut();
+                }
+
+            }
+
+        });
+    }
+
+
+
     listenToAuth() {
 
         auth.onAuthStateChanged(function (user) {
@@ -122,39 +164,14 @@ export default class MainGame extends React.Component {
                 var userPhone = "0" + user.phoneNumber.replace("+972", "");
                 console.warn(userPhone);
 
-                DatabaseHandler.getDataOnceWhere(["Users"], ["phone", userPhone], (childSnapshot) => {
-                    if (childSnapshot) {
-                        //already verified
-
-                        console.warn("verified " + childSnapshot.key);
-
-                        DatabaseHandler.listen("Users/" + childSnapshot.key, (us) => {
-                            that.setState({
-                                loading: false,
-                                verified: true,
-                                user: us.val(),
-                            }, () => {
-                                console.warn(us);
-                            })
-
-                        })
-
-                    }
-                    else {
-                        console.log("unverified");
-                        if (that.state.name != "")
-                            that.createNewUser(userPhone);
-                    }
-
-                    console.log("wtf");
-                });
+                that.verifyUser(userPhone);
 
 
                 console.log("logged in " + user.phoneNumber);
             } else {
                 // User is signed out.
                 // ...
-                that.setState({ loading: false });
+                that.setState({ user: {}, loading: false });
                 console.warn("user logged out")
             }
 

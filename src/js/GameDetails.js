@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
+import { auth, DatabaseHandler } from './DatabaseHandler';
 
 
 class GameDetails extends React.Component {
@@ -51,9 +52,9 @@ class GameDetails extends React.Component {
                                     <View style={[styles.userDetailsText]}>
                                         <Text style={textStyles.smallHeader}>יתרה כוללת</Text>
                                         <Text style={textStyles.boldBig}>₪{this.props.user.money}</Text>
-                                        <View style={textStyles.smallButt}>
+                                        <TouchableOpacity onPress={() => auth.signOut()} style={textStyles.smallButt}>
                                             <Text style={[textStyles.smallHeader, { color: '#818181' }]}>משיכת כסף</Text>
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>

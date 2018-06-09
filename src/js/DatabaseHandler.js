@@ -229,6 +229,29 @@ class DatabaseHandler {
     }
 
 
+    static createNewUser(phone, name, callback) {
+        DatabaseHandler.getTime(time => {
+            var user = {
+                name: name,
+                money: 0,
+                hearts: 1,
+                totalWins: 0,
+                phone: phone,
+                gameStatus: "off",
+                deviceId: 'web',
+                createdAt: time,
+            }
+
+            var updates = {};
+            updates['/Users/' + time] = user;
+            return databases[DatabaseHandler.selected].ref().update(updates).then((s) => {
+                callback(true);
+            });
+
+        })
+    }
+
+
 
     static getTime(callback) {
         console.log("getting time now!");
