@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
@@ -64,27 +66,55 @@ class GameDetails extends React.Component {
                         </View>
                     </View>
                     <View style={styles.gameGeneralProfile}>
-                        <View style={[styles.mainGameContainer, styles.centerContent]}>
-                            <View style={[styles.centerContent, { flex: 1.5, justifyContent: 'flex-end' }]}>
-                                <Text style={[textStyles.header]}>{"המשחק הבא"}</Text>
-                            </View>
-                            <View style={{ flex: 3, display: 'flex', flexDirection: 'row' }}>
-                                <View style={[{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' }]}>
-                                    <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
-                                        <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"יתקיים בתאריך:"}</Text>
-                                        <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>{this.props.general.gameDescription}</Text>
-                                    </View>
-                                    <Icon style={{}} name="ios-time" size={35} color="#b7b7b7" />
+                        {this.props.game.status !== 'active' ?
+                            <View style={[styles.mainGameContainer, styles.centerContent]}>
+                                <View style={[styles.centerContent, { flex: 1.5, justifyContent: 'flex-end' }]}>
+                                    <Text style={[textStyles.header]}>{"המשחק הבא"}</Text>
                                 </View>
-                                <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
-                                    <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
-                                        <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"סכום הפרס:"}</Text>
-                                        <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>₪{this.props.general.bidAmount}</Text>
+                                <View style={{ flex: 3, display: 'flex', flexDirection: 'row' }}>
+                                    <View style={[{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' }]}>
+                                        <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
+                                            <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"יתקיים בתאריך:"}</Text>
+                                            <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>{this.props.general.gameDescription}</Text>
+                                        </View>
+                                        <Icon style={{}} name="ios-time" size={35} color="#b7b7b7" />
                                     </View>
-                                    <Icon name="md-trophy" size={35} color="#b7b7b7" />
+                                    <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
+                                        <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
+                                            <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"סכום הפרס:"}</Text>
+                                            <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>₪{this.props.general.bidAmount}</Text>
+                                        </View>
+                                        <Icon name="md-trophy" size={35} color="#b7b7b7" />
+                                    </View>
                                 </View>
                             </View>
-                        </View>
+                            :
+                            <View style={[styles.centerContent, styles.mainGameContainer]}>
+                                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
+                                        <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
+                                            <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"סכום הפרס:"}</Text>
+                                            <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>₪{this.props.general.bidAmount}</Text>
+                                        </View>
+                                        <Icon name="md-trophy" size={35} color="#b7b7b7" />
+                                    </View>
+                                    <View style={[{ flex: 1 }, styles.centerContent]}>
+                                        <Text style={[textStyles.boldBig, { fontFamily: 'Assistant-Regular', fontSize: 16, color: '#7c7c7c' }]}>
+                                            {"האם אתה מוכן?"}
+                                        </Text>
+                                        <Text style={[textStyles.boldBig, { fontFamily: 'Assistant-Bold', fontSize: 23 }]}>
+                                            {"המשחק התחיל!"}
+                                        </Text>
+                                    </View>
+                                </View>
+                                <TouchableOpacity style={[styles.centerContent, { marginTop: 15, width: '80%', height: 40, borderRadius: 20 }]} onPress={this.props.startGame()}>
+                                    <LinearGradient style={[styles.centerContent, { width: '100%', height: '100%', borderRadius: 20 }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
+                                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white', fontSize: 20 }]}>השתתף</Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            </View>
+                        }
+
                     </View>
                 </View>
 

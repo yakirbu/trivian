@@ -44,7 +44,7 @@ export default class MainGame extends React.Component {
             DatabaseHandler.listen('/Games/' + general.val().currentGame, (game) => {
                 this.setState({
                     currentGame: game.val(),
-                    startGame: game.val().status !== 'active',
+                    startGame: game.val().status !== 'active' ? false : that.state.startGame,
                 });
 
                 console.warn(game.val());
@@ -76,15 +76,26 @@ export default class MainGame extends React.Component {
 
     }
 
+    startGame() {
+        that.setState({ startGame: true });
+        console.warn("started game");
+    }
+
 
     getGuestView() {
         if (that.state.startGame) {
             return <View></View>
         }
         else {
-            return <GameDetails user={that.state.user} general={that.state.general} />
+            return <GameDetails
+                user={that.state.user}
+                general={that.state.general}
+                game={that.state.currentGame}
+                startGame={() => that.startGame}
+            />
         }
     }
+
 
     getMainView() {
         if (that.state.loading) {
