@@ -1,0 +1,1 @@
+https://github.com/invertase/react-native-firebase-starter
