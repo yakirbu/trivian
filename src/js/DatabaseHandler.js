@@ -149,6 +149,27 @@ class DatabaseHandler {
         });
     }
 
+
+    static getSortedDataOnce(path,orderBy,callback) {
+        return databases[DatabaseHandler.selected].ref(path).orderByChild(orderBy).limitToLast(5).once('value').then(function (snapshot) {
+            if (snapshot.numChildren() > 0){
+                //Array of JSON objcts
+                var names = [] 
+                snapshot.forEach(function(child) {
+                    var info = {};
+                    info[child.val().name] = child.val().points;
+                    //We push each object which contains "Name":points to the array
+                    names.push(info);
+                    
+                });
+                callback(names);
+            }
+            else
+                callback(null);
+        });
+    }
+
+
     //Template for a single request with equalTo query
     //path: array, where: array, callback: function()
     getDataOnceWhere(path, where, callback) {
