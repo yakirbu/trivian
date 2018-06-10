@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import IconE from 'react-native-vector-icons/Entypo';
+
 import LinearGradient from 'react-native-linear-gradient';
 
 
@@ -74,17 +76,17 @@ class GameDetails extends React.Component {
                                 <View style={{ flex: 3, display: 'flex', flexDirection: 'row' }}>
                                     <View style={[{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' }]}>
                                         <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
-                                            <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"יתקיים בתאריך:"}</Text>
-                                            <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>{this.props.general.gameDescription}</Text>
+                                            <Text style={[textStyles.smallHeader, textStyles.realSmallText, { textAlign: 'right', fontFamily: 'Assistant-Regular' }]}>{"יתקיים בתאריך:"}</Text>
+                                            <Text style={[textStyles.boldBig, textStyles.smallText, { textAlign: 'right' }]}>{this.props.general.gameDescription}</Text>
                                         </View>
-                                        <Icon style={{}} name="ios-time" size={35} color="#b7b7b7" />
+                                        <Icon style={textStyles.bigText} name="ios-time" color="#b7b7b7" />
                                     </View>
                                     <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
                                         <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
-                                            <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"סכום הפרס:"}</Text>
-                                            <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>₪{this.props.general.bidAmount}</Text>
+                                            <Text style={[textStyles.smallHeader, textStyles.realSmallText, { textAlign: 'right', fontFamily: 'Assistant-Regular' }]}>{"סכום הפרס:"}</Text>
+                                            <Text style={[textStyles.boldBig, textStyles.smallText, { textAlign: 'right' }]}>₪{this.props.general.bidAmount}</Text>
                                         </View>
-                                        <Icon name="md-trophy" size={35} color="#b7b7b7" />
+                                        <Icon name="md-trophy" style={textStyles.bigText} color="#b7b7b7" />
                                     </View>
                                 </View>
                             </View>
@@ -92,34 +94,56 @@ class GameDetails extends React.Component {
                             <View style={[styles.centerContent, styles.mainGameContainer]}>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                                     <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
-                                        <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
-                                            <Text style={[textStyles.smallHeader, { textAlign: 'right', fontFamily: 'Assistant-Regular', fontSize: 14 }]}>{"סכום הפרס:"}</Text>
-                                            <Text style={[textStyles.boldBig, { textAlign: 'right', fontSize: 16 }]}>₪{this.props.general.bidAmount}</Text>
+                                        <View style={[{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }]}>
+                                            <View style={{ marginRight: 15, display: 'flex', flexDirection: 'column' }}>
+                                                <Text style={[textStyles.smallHeader, textStyles.realSmallText, { textAlign: 'right', fontFamily: 'Assistant-Regular' }]}>{"סכום הפרס:"}</Text>
+                                                <Text style={[textStyles.boldBig, textStyles.smallText, { textAlign: 'right' }]}>₪{this.props.general.bidAmount}</Text>
+                                            </View>
+                                            <Icon name="md-trophy" style={textStyles.bigText} color="#b7b7b7" />
                                         </View>
-                                        <Icon name="md-trophy" size={35} color="#b7b7b7" />
                                     </View>
                                     <View style={[{ flex: 1 }, styles.centerContent]}>
-                                        <Text style={[textStyles.boldBig, { fontFamily: 'Assistant-Regular', fontSize: 16, color: '#7c7c7c' }]}>
+                                        <Text style={[textStyles.boldBig, textStyles.smallText, { fontFamily: 'Assistant-Regular', color: '#7c7c7c' }]}>
                                             {"האם אתה מוכן?"}
                                         </Text>
-                                        <Text style={[textStyles.boldBig, { fontFamily: 'Assistant-Bold', fontSize: 23 }]}>
+                                        <Text style={[textStyles.header, { color: '#d65390', fontFamily: 'Assistant-Bold' }]}>
                                             {"המשחק התחיל!"}
                                         </Text>
                                     </View>
                                 </View>
-                                <TouchableOpacity style={[styles.centerContent, { marginTop: 15, width: '80%', height: 40, borderRadius: 20 }]} onPress={this.props.startGame()}>
-                                    <LinearGradient style={[styles.centerContent, { width: '100%', height: '100%', borderRadius: 20 }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
-                                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white', fontSize: 20 }]}>השתתף</Text>
+                                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={this.props.startGame()}>
+                                    <LinearGradient style={[styles.centerContent, styles.coloredButton, { width: '100%', height: '100%' }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
+                                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white' }]}>השתתף</Text>
                                     </LinearGradient>
                                 </TouchableOpacity>
                             </View>
                         }
 
                     </View>
+
+
+                    <View style={[styles.bottomBarContainer, styles.centerContent]}>
+                        <View style={[styles.centerContent, styles.mainGameContainer, { height: '90%', width: '80%', flexDirection: 'row' }]}>
+                            <TouchableOpacity style={[styles.centerContent, styles.bottomButtView]}>
+                                <IconE name="medal" style={textStyles.bigText} color="white" />
+                                <Text style={[textStyles.boldBig, { textAlign: 'center', fontFamily: 'Assistant-Regular', color: 'white', fontSize: 17 }]}>
+                                    {"המובילים"}
+                                </Text>
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity style={[styles.centerContent, styles.bottomButtView]}>
+                                <IconE name="shop" style={textStyles.bigText} color="white" />
+                                <Text style={[textStyles.boldBig, { textAlign: 'center', fontFamily: 'Assistant-Regular', color: 'white', fontSize: 17 }]}>
+                                    {"חנות"}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
                 </View>
 
-                <View style={styles.bottomBarContainer}>
-                </View>
+
             </View>
         )
     }
