@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
 import { auth, databaseHandler } from './DatabaseHandler';
-
+import Payment from './Payment';
 
 
 const getStyle = (vheight) => {
@@ -76,7 +76,7 @@ class GameDetails extends React.Component {
                                     <View style={[styles.userDetailsText]}>
                                         <Text style={textStyles.smallHeader}>יתרה כוללת</Text>
                                         <Text style={textStyles.boldBig}>₪{this.props.user.money}</Text>
-                                        <TouchableOpacity onPress={() => auth.signOut()} style={textStyles.smallButt}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Payment')} style={textStyles.smallButt}>
                                             <Text style={[textStyles.smallHeader, { color: '#818181' }]}>משיכת כסף</Text>
                                         </TouchableOpacity>
                                     </View>
