@@ -10,6 +10,7 @@ import * as Progress from 'react-native-progress';
 import { auth, database, databaseHandler } from './DatabaseHandler';
 import GameDetails from './GameDetails';
 import Auth from './Auth';
+import Game from './Game';
 
 
 import styles from '../styles/MainGameStyle';
@@ -77,8 +78,8 @@ export default class MainGame extends React.Component {
 
     }
 
-    startGame() {
-        that.setState({ startGame: true });
+    startGame(start) {
+        that.setState({ startGame: start });
         console.warn("started game");
     }
 
@@ -169,17 +170,14 @@ export default class MainGame extends React.Component {
 
 
     getGuestView() {
-        if (that.state.startGame) {
-            return <View></View>
-        }
-        else {
-            return <GameDetails
-                user={that.state.user}
-                general={that.state.general}
-                game={that.state.currentGame}
-                startGame={() => that.startGame}
-            />
-        }
+
+        return <GameDetails
+            user={that.state.user}
+            general={that.state.general}
+            game={that.state.currentGame}
+            startGame={() => that.startGame(true)}
+        />
+
     }
 
 
@@ -194,29 +192,40 @@ export default class MainGame extends React.Component {
             return <Auth setUser={(u) => that.setUser(u)} />;
         }
         else {
-            return (
-                <LinearGradient style={styles.mainGameContainer}
-                    colors={['#9e489d', '#8c4ece', '#644ddb']}>
+            if (!that.state.startGame) {
+                //GAME-STARTED
+                return <Game
+                    user={that.state.user}
+                    general={that.state.general}
+                    game={that.state.currentGame}
+                    startGame={() => that.startGame(false)} />
+            }
+            else {
+                //MAIN-VIEW
+                return (
+                    <LinearGradient style={styles.mainGameContainer}
+                        colors={['#9e489d', '#8c4ece', '#644ddb']}>
 
 
-                    <View style={styles.topBarContainer}>
-                        <View style={[styles.mainGameContainer, styles.topBarContainerWrapper]}>
-                            <View style={{ flex: 1 }} />
-                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <View style={[styles.topBarLine]}>
-                                    <Text style={[textStyles.smallHeader, styles.topBarText]}>{"15"}</Text>
+                        <View style={styles.topBarContainer}>
+                            <View style={[styles.mainGameContainer, styles.topBarContainerWrapper]}>
+                                <View style={{ flex: 1 }} />
+                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                    <View style={[styles.topBarLine]}>
+                                        <Text style={[textStyles.smallHeader, styles.topBarText]}>{"15"}</Text>
+                                    </View>
+                                    <IconE name="heart" style={[textStyles.bigText, { position: 'absolute' }]} color="#d83b2f" />
                                 </View>
-                                <IconE name="heart" style={[textStyles.bigText, { position: 'absolute' }]} color="#d83b2f" />
+
                             </View>
-
                         </View>
-                    </View>
 
-                    <View style={styles.gameBodyContainer}>
-                        {that.getGuestView()}
-                    </View>
+                        <View style={styles.gameBodyContainer}>
+                            {that.getGuestView()}
+                        </View>
 
-                </LinearGradient>)
+                    </LinearGradient>)
+            }
         }
     }
 

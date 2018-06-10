@@ -43,7 +43,7 @@ export default EStyleSheet.create({
     },
     //end top-bar
     gameBodyContainer: {
-        flex: 7,
+        flex: 9,
         display: 'flex',
         width: '100%',
         justifyContent: 'center',
@@ -161,6 +161,13 @@ export default EStyleSheet.create({
     },
     /* END AUTH */
 
+
+    /* GAME */
+    curvedView: {
+        height: '8.0rem',
+        backgroundColor: '#644ddb'
+    },
+    /* END GAME */
 
 
     /* GENERAL */
