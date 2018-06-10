@@ -164,8 +164,11 @@ export default EStyleSheet.create({
 
     /* GAME */
     curvedView: {
-        height: '8.0rem',
-        backgroundColor: '#644ddb'
+        height: '4.0rem',
+        width: '16.0rem',
+        borderRadius: '32rem',
+        backgroundColor: '#644ddb',
+
     },
     /* END GAME */
 
