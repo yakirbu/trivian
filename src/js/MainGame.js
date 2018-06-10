@@ -175,6 +175,7 @@ export default class MainGame extends React.Component {
             user={that.state.user}
             general={that.state.general}
             game={that.state.currentGame}
+            navigation={this.props.navigation}
             startGame={() => that.startGame(true)}
         />)
 

@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MainGame from './src/js/MainGame';
+import Payment from './src/js/Payment';
 import { databaseHandler } from './src/js/DatabaseHandler';
 
 
@@ -27,6 +28,9 @@ const Home = createStackNavigator(
   {
     Home: {
       screen: MainGame,
+    },
+    Payment: {
+      screen: Payment,
     }
   },
   {
