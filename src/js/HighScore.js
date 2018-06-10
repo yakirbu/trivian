@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { DatabaseHandler } from './DatabaseHandler';
+import { databaseHandler } from './DatabaseHandler';
 
 
 var that;
@@ -14,22 +14,22 @@ class HighScore extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getTopUsers();
     }
 
     getTopUsers() {
-        DatabaseHandler.getSortedDataOnce("Users","points",(userData) => {
+        databaseHandler.getSortedDataOnce("Users", "points", (userData) => {
             var myJsonString = JSON.stringify(userData);
             console.log(myJsonString);
-        });   
+        });
     }
 
     render() {
         return (
-        
-                <Text>HighScore UserInterface</Text>
-          
+
+            <Text>HighScore UserInterface</Text>
+
         )
     }
 }
