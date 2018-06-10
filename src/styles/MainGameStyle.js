@@ -17,10 +17,31 @@ export default EStyleSheet.create({
         width: '100%',
         flexDirection: 'column',
     },
+    //top-bar
     topBarContainer: {
         flex: 1,
         width: '100%',
     },
+    topBarContainerWrapper: {
+        flexDirection: 'row',
+        paddingRight: '0.4rem',
+        paddingTop: '0.4rem',
+    },
+    topBarLine: {
+        backgroundColor: 'white',
+        marginTop: '0.7rem',
+        marginRight: '1.1rem',
+        width: '7rem',
+        height: '2rem',
+        borderRadius: '1.5rem'
+    },
+    topBarText: {
+        color: 'black',
+        textAlign: 'center',
+        marginRight: '0.8rem',
+        fontFamily: 'Assistant-Bold'
+    },
+    //end top-bar
     gameBodyContainer: {
         flex: 7,
         display: 'flex',
@@ -40,7 +61,6 @@ export default EStyleSheet.create({
     userGeneralProfileContainer: {
         width: '100%',
         backgroundColor: 'transparent',
-        borderRadius: 30,
         flex: 4,
         display: 'flex',
         justifyContent: 'center',
@@ -51,20 +71,24 @@ export default EStyleSheet.create({
     userGeneralProfile: {
         width: '100%',
         backgroundColor: 'white',
-        borderRadius: 20,
+        borderRadius: '1.8rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
         position: 'absolute',
-        top: 40,
+        top: '3rem',
         height: '100%',
     },
     userProfileText: {
         width: '100%',
         height: '100%',
-        paddingTop: 45,
+        paddingTop: '4rem',
         display: 'flex',
         alignItems: 'center',
+    },
+    userImgStyle: {
+        height: '6rem',
+        width: '6rem',
     },
     winningDetails: {
         flex: 3,
@@ -87,13 +111,13 @@ export default EStyleSheet.create({
         top: 0,
         zIndex: 3,
         backgroundColor: 'white',
-        padding: 8,
-        borderRadius: 42.5,
+        padding: '.8rem',
+        borderRadius: '6rem',
     },
     gameGeneralProfile: {
         width: '100%',
         marginTop: 5,
-        borderRadius: 20,
+        borderRadius: '1.8rem',
         flex: 2,
         backgroundColor: 'white',
     },

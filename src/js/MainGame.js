@@ -7,7 +7,7 @@ import * as Progress from 'react-native-progress';
 
 
 //COMPS
-import { auth, database, DatabaseHandler } from './DatabaseHandler';
+import { auth, database, databaseHandler } from './DatabaseHandler';
 import GameDetails from './GameDetails';
 import Auth from './Auth';
 
@@ -38,11 +38,11 @@ export default class MainGame extends React.Component {
     componentDidMount() {
 
         //listen to general changes
-        DatabaseHandler.listen('/General', (general) => {
+        databaseHandler.listen('/General', (general) => {
             this.setState({ general: general.val() });
 
             //listen to game changes
-            DatabaseHandler.listen('/Games/' + general.val().currentGame, (game) => {
+            databaseHandler.listen('/Games/' + general.val().currentGame, (game) => {
                 this.setState({
                     currentGame: game.val(),
                     startGame: game.val().status !== 'active' ? false : that.state.startGame,
@@ -52,12 +52,12 @@ export default class MainGame extends React.Component {
                 console.log("currentQuestion in game is now: " + game.val().currentQuestionId);
 
                 //listen to current question changes
-                DatabaseHandler.listen('/Questions/' + game.key + "/" + game.val().currentQuestionId, (question) => {
+                databaseHandler.listen('/Questions/' + game.key + "/" + game.val().currentQuestionId, (question) => {
                     console.log("question-" + question.key)
 
                     //getting current question data once
                     if (question.val().status == "results") {
-                        DatabaseHandler.getDataOnce(["QuestionData", question.key], (qData) => {
+                        databaseHandler.getDataOnce(["QuestionData", question.key], (qData) => {
                             console.log("questionDataOnce-" + question.key)
                             this.setState({ currQuestionData: qData.val() }, () => {
                                 this.setState({ currentQuestion: question.val() });
@@ -85,13 +85,13 @@ export default class MainGame extends React.Component {
 
     async verifyUser(phone) {
         console.warn("verify stage 1");
-        DatabaseHandler.getDataOnceWhere(["Users"], ["phone", phone], async (childSnapshot) => {
+        databaseHandler.getDataOnceWhere(["Users"], ["phone", phone], async (childSnapshot) => {
             if (childSnapshot) {
                 //already verified
 
                 console.warn("verified " + childSnapshot.key);
 
-                DatabaseHandler.listen("Users/" + childSnapshot.key, (us) => {
+                databaseHandler.listen("Users/" + childSnapshot.key, (us) => {
                     that.setState({
                         loading: false,
                         user: us.val(),
@@ -109,7 +109,7 @@ export default class MainGame extends React.Component {
                     if (regCounter > 5)
                         return;
                     regCounter++;
-                    DatabaseHandler.createNewUser(phone, name, (succ) => {
+                    databaseHandler.createNewUser(phone, name, (succ) => {
                         that.verifyUser(phone);
                     });
                 }
@@ -140,7 +140,7 @@ export default class MainGame extends React.Component {
                 // User is signed out.
                 // ...
                 if (that.state.user && that.state.user.createdAt)
-                    DatabaseHandler.detachListener("Users/" + that.state.user.createdAt);
+                    databaseHandler.detachListener("Users/" + that.state.user.createdAt);
                 that.setState({ user: {}, loading: false });
                 console.warn("user logged out")
             }
@@ -200,13 +200,13 @@ export default class MainGame extends React.Component {
 
 
                     <View style={styles.topBarContainer}>
-                        <View style={[styles.mainGameContainer, { flexDirection: 'row', paddingTop: 5, paddingRight: 5 }]}>
+                        <View style={[styles.mainGameContainer, styles.topBarContainerWrapper]}>
                             <View style={{ flex: 1 }} />
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <View style={{ backgroundColor: 'white', marginTop: 8.5, marginRight: 11, width: 70, height: 22, borderRadius: 20 }}>
-                                    <Text style={[textStyles.smallHeader, { color: 'black', textAlign: 'center', marginRight: 8, fontFamily: 'Assistant-Bold', fontSize: 15 }]}>{"15"}</Text>
+                                <View style={[styles.topBarLine]}>
+                                    <Text style={[textStyles.smallHeader, styles.topBarText]}>{"15"}</Text>
                                 </View>
-                                <IconE name="heart" size={35} color="#d83b2f" style={{ position: 'absolute' }} />
+                                <IconE name="heart" style={[textStyles.bigText, { position: 'absolute' }]} color="#d83b2f" />
                             </View>
 
                         </View>

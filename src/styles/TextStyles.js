@@ -20,10 +20,10 @@ export default EStyleSheet.create({
     smallButt: {
         borderWidth: 1,
         borderColor: '#818181',
-        paddingHorizontal: 20,
-        paddingVertical: 3,
-        borderRadius: 15,
-        marginTop: 5
+        paddingHorizontal: '1.4rem',
+        paddingVertical: '0.2rem',
+        borderRadius: '1.5rem',
+        marginTop: '.5rem',
     },
     whiteBigHeader: {
         fontFamily: 'Assistant-Bold',

@@ -1,5 +1,6 @@
 import firebase from "react-native-firebase";
 import axios from 'axios';
+import { Dimensions } from 'react-native';
 
 
 var masterdb = firebase.database();
@@ -18,17 +19,24 @@ var questionListeners = [];
 const MAX_USERS_DB = 90000;
 var onlineTimes = 0;
 var currentTutItem = "";
+var that;
 class DatabaseHandler {
-    static selected = 0;
+    selected = 0;
+    that = this;
 
 
-    static getAvailableDatabase(callback) {
-        DatabaseHandler.getDatabasesLoad(callback);
+    getRem() {
+        let { height, width } = Dimensions.get('window');
+        return height > 580 ? 13 : 9;
+    }
+
+    getAvailableDatabase(callback) {
+        that.getDatabasesLoad(callback);
 
         /*
         console.log("here? ");
-        DatabaseHandler.selected = 0;
-        DatabaseHandler.getDataOnce(["Databases"], (snapshot) => {
+        this.selected = 0;
+        that.getDataOnce(["Databases"], (snapshot) => {
             console.log("here2 ");
 
 
@@ -37,27 +45,28 @@ class DatabaseHandler {
             var db3 = snapshot.val().db3;
 
             if (db1 < MAX_USERS_DB)
-                DatabaseHandler.selected = 1;
+                this.selected = 1;
             else if (db2 < MAX_USERS_DB)
-                DatabaseHandler.selected = 2;
+                this.selected = 2;
             else
-                DatabaseHandler.selected = 3;
+                this.selected = 3;
 
             for (var i = 1; i < databases.length; i++) {
-                if (i !== DatabaseHandler.selected)
-                    DatabaseHandler.checkDBState(i, false);
+                if (i !== this.selected)
+                    that.checkDBState(i, false);
             }
 
-            DatabaseHandler.checkDBState(DatabaseHandler.selected, true);
-            callback(DatabaseHandler.selected);
+            that.checkDBState(this.selected, true);
+            callback(this.selected);
             console.log("databases-load: " + db1 + " " + db2 + " " + db3);
 
         });
         */
     }
 
+
     //check db status
-    static checkDBState(pos, state) {
+    checkDBState(pos, state) {
         if (!state && databases[pos] == undefined)
             return;
         else if (state && databases[pos] == undefined)
@@ -65,16 +74,16 @@ class DatabaseHandler {
         var connectedRef = databases[pos].ref('.info/connected');
         connectedRef.once('value', function (snap) {
             if (snap.val() === true) {
-                DatabaseHandler.changeDBState(pos, state, true);
+                that.changeDBState(pos, state, true);
             }
             else {
-                DatabaseHandler.changeDBState(pos, state, false);
+                that.changeDBState(pos, state, false);
             }
         });
     }
 
     //change db state
-    static changeDBState(pos, state, serverStatus) {
+    changeDBState(pos, state, serverStatus) {
         //if it's already in that state, return.
         if (serverStatus == state)
             return;
@@ -93,7 +102,7 @@ class DatabaseHandler {
 
 
     //create a listener for a specific node, avoids double listener to same node
-    static listen(path, callback, type) {
+    listen(path, callback, type) {
         if (listenNodes && !listenNodes.find(item => { return item === path })) {
             listenNodes.push(path);
             if (type == 'question') {
@@ -102,7 +111,7 @@ class DatabaseHandler {
             }
             else if (type == 'questionData')
                 questionListeners.push(path);
-            databases[DatabaseHandler.selected].ref(path).on('value', (snap) => {
+            databases[this.selected].ref(path).on('value', (snap) => {
                 callback(snap);
             });
         }
@@ -110,19 +119,19 @@ class DatabaseHandler {
             console.log("already listening to this node");
     }
 
-    static detachListeners() {
+    detachListeners() {
         questionListeners.forEach(item => {
             console.log("remove-" + item + "-from listening");
-            databases[DatabaseHandler.selected].ref(item).off();
+            databases[this.selected].ref(item).off();
             questionListeners = questionListeners.filter(e => e != item);
             listenNodes = listenNodes.filter(e => e != item);
         })
     }
 
-    static detachListener(path) {
+    detachListener(path) {
         if (listenNodes) {
             var item = listenNodes.find(item => { return item === path });
-            databases[DatabaseHandler.selected].ref(item).off();
+            databases[this.selected].ref(item).off();
             listenNodes = listenNodes.filter(e => e != item);
             console.warn(item);
         }
@@ -131,8 +140,8 @@ class DatabaseHandler {
 
     //Template for a single request (not a listener)
     //path: array, callback: function()
-    static getDataOnce(path, callback) {
-        return databases[DatabaseHandler.selected].ref('/' + path.join("/")).once('value').then(function (snapshot) {
+    getDataOnce(path, callback) {
+        return databases[this.selected].ref('/' + path.join("/")).once('value').then(function (snapshot) {
             if (snapshot.numChildren() > 0)
                 callback(snapshot);
             else
@@ -142,8 +151,8 @@ class DatabaseHandler {
 
     //Template for a single request with equalTo query
     //path: array, where: array, callback: function()
-    static getDataOnceWhere(path, where, callback) {
-        return databases[DatabaseHandler.selected].ref('/' + path.join("/")).orderByChild(where[0]).equalTo(where[1]).once('value').then(function (snapshot) {
+    getDataOnceWhere(path, where, callback) {
+        return databases[this.selected].ref('/' + path.join("/")).orderByChild(where[0]).equalTo(where[1]).once('value').then(function (snapshot) {
             if (snapshot.numChildren() > 0) {
                 snapshot.forEach(function (childSnapshot) {
                     callback(childSnapshot);
@@ -155,10 +164,10 @@ class DatabaseHandler {
     }
 
 
-    static updateUserAns(qnum, ans, uid, gid, qid, callback) {
+    updateUserAns(qnum, ans, uid, gid, qid, callback) {
 
         //update question num
-        databases[DatabaseHandler.selected].ref('/QuestionData/' + qid).transaction(function (qData) {
+        databases[this.selected].ref('/QuestionData/' + qid).transaction(function (qData) {
             console.log("0choosen!!! " + qid);
             if (qData) {
                 console.log("1choosen!!!");
@@ -180,21 +189,21 @@ class DatabaseHandler {
         //update user ans
         var userAns = {};
         userAns[qnum] = ans;
-        databases[DatabaseHandler.selected].ref("/UserAns/" + uid + "/" + gid).update(userAns).then((s) => {
+        databases[this.selected].ref("/UserAns/" + uid + "/" + gid).update(userAns).then((s) => {
             callback(s);
         })
     }
 
 
-    static updateUserGameStatus(uid, status, callback) {
+    updateUserGameStatus(uid, status, callback) {
         console.log("here-3");
-        databases[DatabaseHandler.selected].ref('/Users/' + uid).update({ gameStatus: status }).then((s) => {
+        databases[this.selected].ref('/Users/' + uid).update({ gameStatus: status }).then((s) => {
             callback(s);
         })
     }
 
 
-    static addUserOnline(gameId, callback) {
+    addUserOnline(gameId, callback) {
         /*
         databases[0].ref('/Databases/').transaction((snapData) => {
             if (snapData) {
@@ -207,9 +216,9 @@ class DatabaseHandler {
         });
         */
         console.log("adding-user-online");
-        DatabaseHandler.getTime((time) => {
-            var ref = databases[DatabaseHandler.selected].ref('Connect');
-            var gameId = DatabaseHandler.selected + "-" + "random";
+        that.getTime((time) => {
+            var ref = databases[this.selected].ref('Connect');
+            var gameId = this.selected + "-" + "random";
             var obj = {};
             obj[time] = gameId;
             ref.set(obj);
@@ -218,19 +227,19 @@ class DatabaseHandler {
 
     }
 
-    static addUserOnlineWrapper(callback) {
+    addUserOnlineWrapper(callback) {
         if (onlineTimes > 0)
             return;
         onlineTimes++;
-        var diconnectRef = databases[DatabaseHandler.selected].ref('Disconnect');
-        DatabaseHandler.getTime((time) => {
-            var gameId = DatabaseHandler.selected + "-" + "random";
+        var diconnectRef = databases[this.selected].ref('Disconnect');
+        that.getTime((time) => {
+            var gameId = this.selected + "-" + "random";
             var obj = {};
             obj[time] = gameId;
             diconnectRef.onDisconnect().set(obj).then(s => {
-                DatabaseHandler.addUserOnline(gameId, (s) => {
+                that.addUserOnline(gameId, (s) => {
                     //disconnect from master
-                    //DatabaseHandler.checkDBState(0, false);
+                    //that.checkDBState(0, false);
                     callback();
                 });
             });
@@ -238,8 +247,8 @@ class DatabaseHandler {
     }
 
 
-    static createNewUser(phone, name, callback) {
-        DatabaseHandler.getTime(time => {
+    createNewUser(phone, name, callback) {
+        that.getTime(time => {
             var user = {
                 name: name,
                 money: 0,
@@ -253,7 +262,7 @@ class DatabaseHandler {
 
             var updates = {};
             updates['/Users/' + time] = user;
-            return databases[DatabaseHandler.selected].ref().update(updates).then((s) => {
+            return databases[this.selected].ref().update(updates).then((s) => {
                 callback(true);
             });
 
@@ -262,7 +271,7 @@ class DatabaseHandler {
 
 
 
-    static getTime(callback) {
+    getTime(callback) {
         console.log("getting time now!");
         axios.get('https://us-central1-questions-59ee6.cloudfunctions.net/app/api/time')
             .then(function (response) {
@@ -277,7 +286,7 @@ class DatabaseHandler {
 
 
     // REST ==========
-    static getDatabasesLoad(callback) {
+    getDatabasesLoad(callback) {
         console.log("getting time now!");
         axios.get('https://questions-59ee6.firebaseio.com/Databases.json')
             .then(function (response) {
@@ -289,23 +298,23 @@ class DatabaseHandler {
                 var db3 = data.db3;
 
                 if (db1 < MAX_USERS_DB)
-                    DatabaseHandler.selected = 1;
+                    this.selected = 1;
                 else if (db2 < MAX_USERS_DB)
-                    DatabaseHandler.selected = 2;
+                    this.selected = 2;
                 else
-                    DatabaseHandler.selected = 3;
+                    this.selected = 3;
 
                 console.log("db: " + db1 + "-" + db2 + "-" + db3);
 
-                DatabaseHandler.checkDBState(DatabaseHandler.selected, true);
+                that.checkDBState(this.selected, true);
 
 
                 for (var i = 1; i < databases.length; i++) {
-                    if (i !== DatabaseHandler.selected)
-                        DatabaseHandler.checkDBState(i, false);
+                    if (i !== this.selected)
+                        that.checkDBState(i, false);
                 }
 
-                callback(DatabaseHandler.selected);
+                callback(this.selected);
 
             })
             .catch(function (error) {
@@ -318,5 +327,5 @@ class DatabaseHandler {
 
 
 }
-
-export { DatabaseHandler, auth, databases };
+const databaseHandler = new DatabaseHandler();
+export { databaseHandler, auth, databases };
