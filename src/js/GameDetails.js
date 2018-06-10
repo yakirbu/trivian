@@ -1,16 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconE from 'react-native-vector-icons/Entypo';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
 
 import LinearGradient from 'react-native-linear-gradient';
 
 
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
-import { auth, DatabaseHandler } from './DatabaseHandler';
+import { auth, databaseHandler } from './DatabaseHandler';
 
 
+
+const getStyle = (vheight) => {
+    var finalHeight = vheight - 3 * databaseHandler.getRem();
+    return EStyleSheet.create({
+        fixedHeight: {
+            height: finalHeight,
+        }
+    });
+}
 
 class GameDetails extends React.Component {
 
@@ -24,27 +35,33 @@ class GameDetails extends React.Component {
 
 
     find_dimesions(layout) {
+
         if (that.state.fixSizeStyle !== 0)
             return;
         else {
             const { x, y, width, height } = layout;
+
             that.setState({
-                fixSizeStyle: height - 40,
+                fixSizeStyle: height,
             })
         }
         //console.warn(height);
+
     }
 
+
+
     render() {
+        let fixedStyle = getStyle(this.state.fixSizeStyle)
         return (
             <View style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <View style={styles.profileContainer}>
                     <View style={styles.userGeneralProfileContainer}>
                         <View style={styles.userProfileImage}>
-                            <Image style={{ height: 70, width: 70, marginTop: 0 }} source={require('../images/user.png')} />
+                            <Image style={[styles.userImgStyle]} source={require('../images/user.png')} />
                         </View>
 
-                        <View style={[styles.userGeneralProfile, { height: this.state.fixSizeStyle === 0 ? '100%' : this.state.fixSizeStyle }]}
+                        <View style={[styles.userGeneralProfile, this.state.fixSizeStyle != 0 ? fixedStyle.fixedHeight : '']}
                             onLayout={(event) => { this.find_dimesions(event.nativeEvent.layout) }}>
                             <View style={styles.userProfileText}>
                                 <View style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>

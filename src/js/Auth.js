@@ -5,7 +5,7 @@ import * as Progress from 'react-native-progress';
 
 
 //COMPS
-import { databases, auth, DatabaseHandler } from './DatabaseHandler';
+import { databases, auth, databaseHandler } from './DatabaseHandler';
 
 
 import styles from '../styles/MainGameStyle';
