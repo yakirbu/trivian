@@ -34,7 +34,7 @@ class Auth extends React.Component {
 
             //set loading true
             that.setState({ loading: true });
-
+            console.warn("+972" + that.state.phone);
             //send confirmation msg to phone
             auth.signInWithPhoneNumber("+972" + that.state.phone)
                 .then(confirmResult => {
@@ -55,6 +55,7 @@ class Auth extends React.Component {
         let { confirmResult, code } = that.state;
         if (confirmResult && code.length > 1) {
             that.setState({ loading: true });
+            console.warn(code);
             confirmResult.confirm(code)
                 .then(user => {
                     that.setState({ loading: false });
@@ -126,7 +127,7 @@ class Auth extends React.Component {
                 </View>
 
 
-                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={this.props.startGame()}>
+                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={() => this.verifyCode()}>
                     <LinearGradient style={[styles.centerContent, styles.coloredButton, { width: '100%', height: '100%' }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
                         <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white' }]}>אמת</Text>
                     </LinearGradient>
@@ -179,7 +180,7 @@ class Auth extends React.Component {
                     />
                 </View>
 
-                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={this.props.startGame()}>
+                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={() => this.authenticate()}>
                     <LinearGradient style={[styles.centerContent, styles.coloredButton, { width: '100%', height: '100%' }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
                         <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white' }]}>הבא</Text>
                     </LinearGradient>
