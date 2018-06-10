@@ -8,7 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import styles from '../styles/MainGameStyle';
 
 
-export default class Game extends React.Component {
+class Game extends React.Component {
 
 
     componentDidMount() {
@@ -17,8 +17,8 @@ export default class Game extends React.Component {
 
     render() {
         return (
-            <View style={[styles.mainGameContainer, {}]}>
-                <LinearGradient style={{ flex: 2 }}
+            <View style={[styles.centerContent, styles.mainGameContainer, {}]}>
+                <LinearGradient style={{ width: '100%', flex: 2 }}
                     colors={['#9e489d', '#644ddb']}>
                     <Text>hello</Text>
 
@@ -33,3 +33,4 @@ export default class Game extends React.Component {
 }
 
 
+export default Game;

@@ -170,35 +170,37 @@ export default class MainGame extends React.Component {
 
 
     getGuestView() {
-
-        return <GameDetails
+        console.warn("test");
+        return (<GameDetails
             user={that.state.user}
             general={that.state.general}
             game={that.state.currentGame}
             startGame={() => that.startGame(true)}
-        />
+        />)
 
     }
 
 
     getMainView() {
         if (that.state.loading) {
-            <LinearGradient style={styles.mainGameContainer}
-                colors={['#9e489d', '#8c4ece', '#644ddb']}>
-                <Progress.Circle size={40} color={'white'} borderWidth={4} indeterminate={true} />
-            </LinearGradient>
+            return (
+                <LinearGradient style={styles.mainGameContainer}
+                    colors={['#9e489d', '#8c4ece', '#644ddb']}>
+                    <Progress.Circle size={40} color={'white'} borderWidth={4} indeterminate={true} />
+                </LinearGradient>);
         }
         else if (that.state.user.createdAt === undefined) {
             return <Auth setUser={(u) => that.setUser(u)} />;
         }
         else {
-            if (!that.state.startGame) {
+            console.warn(that.state.startGame)
+            if (that.state.startGame) {
                 //GAME-STARTED
-                return <Game
+                return (<Game
                     user={that.state.user}
                     general={that.state.general}
                     game={that.state.currentGame}
-                    startGame={() => that.startGame(false)} />
+                    startGame={() => that.startGame(false)} />)
             }
             else {
                 //MAIN-VIEW
