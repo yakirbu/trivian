@@ -143,7 +143,7 @@ class GameDetails extends React.Component {
                         <View style={[styles.centerContent, styles.mainGameContainer, { height: '90%', width: '80%', flexDirection: 'row' }]}>
                             <TouchableOpacity style={[styles.centerContent, styles.bottomButtView]}>
                                 <IconE name="medal" style={textStyles.bigText} color="white" />
-                                <Text style={[textStyles.boldBig, { textAlign: 'center', fontFamily: 'Assistant-Regular', color: 'white', fontSize: 17 }]}>
+                                <Text style={[textStyles.smallHeader, { textAlign: 'center', fontFamily: 'Assistant-Regular', color: 'white' }]}>
                                     {"המובילים"}
                                 </Text>
                             </TouchableOpacity>
@@ -151,7 +151,7 @@ class GameDetails extends React.Component {
 
                             <TouchableOpacity style={[styles.centerContent, styles.bottomButtView]}>
                                 <IconE name="shop" style={textStyles.bigText} color="white" />
-                                <Text style={[textStyles.boldBig, { textAlign: 'center', fontFamily: 'Assistant-Regular', color: 'white', fontSize: 17 }]}>
+                                <Text style={[textStyles.smallHeader, { textAlign: 'center', fontFamily: 'Assistant-Regular', color: 'white' }]}>
                                     {"חנות"}
                                 </Text>
                             </TouchableOpacity>
