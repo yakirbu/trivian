@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, I18nManager } from 'react-native';
+import { StyleSheet, Text, View, I18nManager, Dimensions } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
 //import { Font } from 'expo';
 
 import MainGame from './src/js/MainGame';
@@ -23,6 +25,10 @@ export default class App extends React.Component {
     */
 
     I18nManager.allowRTL(false);
+    console.disableYellowBox = true;
+
+    let { height, width } = Dimensions.get('window');
+    console.warn(height + " " + width);
   }
 
   render() {
@@ -47,11 +53,10 @@ const Home = createStackNavigator(
   });
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+// app entry
+let { height, width } = Dimensions.get('window');
+console.warn(height);
+EStyleSheet.build({
+  $rem: height > 580 ? 13 : 9
 });
+

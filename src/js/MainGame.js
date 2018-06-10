@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, AsyncStorage } from 'react-native';
+import IconE from 'react-native-vector-icons/Entypo';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewOverflow from 'react-native-view-overflow';
 import * as Progress from 'react-native-progress';
@@ -44,7 +45,7 @@ export default class MainGame extends React.Component {
             DatabaseHandler.listen('/Games/' + general.val().currentGame, (game) => {
                 this.setState({
                     currentGame: game.val(),
-                    startGame: game.val().status !== 'active',
+                    startGame: game.val().status !== 'active' ? false : that.state.startGame,
                 });
 
                 console.warn(game.val());
@@ -76,43 +77,10 @@ export default class MainGame extends React.Component {
 
     }
 
-
-    getGuestView() {
-        if (that.state.startGame) {
-            return <View></View>
-        }
-        else {
-            return <GameDetails user={that.state.user} general={that.state.general} />
-        }
+    startGame() {
+        that.setState({ startGame: true });
+        console.warn("started game");
     }
-
-    getMainView() {
-        if (that.state.loading) {
-            <LinearGradient style={styles.mainGameContainer}
-                colors={['#9e489d', '#8c4ece', '#644ddb']}>
-                <Progress.Circle size={40} color={'white'} borderWidth={4} indeterminate={true} />
-            </LinearGradient>
-        }
-        else if (that.state.user.createdAt === undefined) {
-            return <Auth setUser={(u) => that.setUser(u)} />;
-        }
-        else {
-            return (
-                <LinearGradient style={styles.mainGameContainer}
-                    colors={['#9e489d', '#8c4ece', '#644ddb']}>
-
-
-                    <View style={styles.topBarContainer}>
-                    </View>
-
-                    <View style={styles.gameBodyContainer}>
-                        {that.getGuestView()}
-                    </View>
-
-                </LinearGradient>)
-        }
-    }
-
 
 
     async verifyUser(phone) {
@@ -188,6 +156,7 @@ export default class MainGame extends React.Component {
         })
     }
 
+
     render() {
         return (
 
@@ -197,5 +166,59 @@ export default class MainGame extends React.Component {
 
         );
     }
+
+
+    getGuestView() {
+        if (that.state.startGame) {
+            return <View></View>
+        }
+        else {
+            return <GameDetails
+                user={that.state.user}
+                general={that.state.general}
+                game={that.state.currentGame}
+                startGame={() => that.startGame}
+            />
+        }
+    }
+
+
+    getMainView() {
+        if (that.state.loading) {
+            <LinearGradient style={styles.mainGameContainer}
+                colors={['#9e489d', '#8c4ece', '#644ddb']}>
+                <Progress.Circle size={40} color={'white'} borderWidth={4} indeterminate={true} />
+            </LinearGradient>
+        }
+        else if (that.state.user.createdAt === undefined) {
+            return <Auth setUser={(u) => that.setUser(u)} />;
+        }
+        else {
+            return (
+                <LinearGradient style={styles.mainGameContainer}
+                    colors={['#9e489d', '#8c4ece', '#644ddb']}>
+
+
+                    <View style={styles.topBarContainer}>
+                        <View style={[styles.mainGameContainer, { flexDirection: 'row', paddingTop: 5, paddingRight: 5 }]}>
+                            <View style={{ flex: 1 }} />
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <View style={{ backgroundColor: 'white', marginTop: 8.5, marginRight: 11, width: 70, height: 22, borderRadius: 20 }}>
+                                    <Text style={[textStyles.smallHeader, { color: 'black', textAlign: 'center', marginRight: 8, fontFamily: 'Assistant-Bold', fontSize: 15 }]}>{"15"}</Text>
+                                </View>
+                                <IconE name="heart" size={35} color="#d83b2f" style={{ position: 'absolute' }} />
+                            </View>
+
+                        </View>
+                    </View>
+
+                    <View style={styles.gameBodyContainer}>
+                        {that.getGuestView()}
+                    </View>
+
+                </LinearGradient>)
+        }
+    }
+
 }
 

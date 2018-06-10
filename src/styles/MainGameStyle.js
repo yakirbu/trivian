@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default StyleSheet.create({
+
+export default EStyleSheet.create({
 
     /* MAIN-GAME */
 
@@ -17,8 +19,6 @@ export default StyleSheet.create({
     },
     topBarContainer: {
         flex: 1,
-        backgroundColor: 'red',
-        opacity: 0.1,
         width: '100%',
     },
     gameBodyContainer: {
@@ -97,11 +97,20 @@ export default StyleSheet.create({
         flex: 2,
         backgroundColor: 'white',
     },
+
+
+
     bottomBarContainer: {
         flex: 1.5,
-        backgroundColor: 'blue',
-        opacity: 0.1,
         width: '100%',
+    },
+    bottomButtView: {
+        flex: 1,
+        borderColor: 'white',
+        borderWidth: 1,
+        margin: '1.0rem',
+        paddingVertical: '0.5rem',
+        borderRadius: '1.1rem'
     },
 
     /* END MAIN-GAME */
@@ -125,6 +134,15 @@ export default StyleSheet.create({
         color: '#bfbebe',
         borderBottomColor: '#d2d2d2',
         borderBottomWidth: 2,
-    }
+    },
     /* END AUTH */
+
+
+
+    /* GENERAL */
+    coloredButton: {
+        height: '3.5rem',
+        borderRadius: '1.5rem',
+    },
+    /* END GENERAL */
 });

@@ -126,9 +126,9 @@ class Auth extends React.Component {
                 </View>
 
 
-                <TouchableOpacity style={[styles.centerContent, { marginTop: 15, width: '80%', height: 40, borderRadius: 20 }]} onPress={() => this.verifyCode()}>
-                    <LinearGradient style={[styles.centerContent, { width: '100%', height: '100%', borderRadius: 20 }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
-                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white', fontSize: 20 }]}>אמת</Text>
+                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={this.props.startGame()}>
+                    <LinearGradient style={[styles.centerContent, styles.coloredButton, { width: '100%', height: '100%' }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
+                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white' }]}>אמת</Text>
                     </LinearGradient>
                 </TouchableOpacity>
 
@@ -179,9 +179,9 @@ class Auth extends React.Component {
                     />
                 </View>
 
-                <TouchableOpacity style={[styles.centerContent, { marginTop: 15, width: '80%', height: 40, borderRadius: 20 }]} onPress={() => this.authenticate()}>
-                    <LinearGradient style={[styles.centerContent, { width: '100%', height: '100%', borderRadius: 20 }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
-                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white', fontSize: 20 }]}>הבא</Text>
+                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={this.props.startGame()}>
+                    <LinearGradient style={[styles.centerContent, styles.coloredButton, { width: '100%', height: '100%' }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
+                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white' }]}>הבא</Text>
                     </LinearGradient>
                 </TouchableOpacity>
 

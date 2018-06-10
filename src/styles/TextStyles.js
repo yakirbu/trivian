@@ -1,20 +1,21 @@
 import { StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default StyleSheet.create({
+export default EStyleSheet.create({
     header: {
         color: '#5a34bd',
         fontFamily: 'Assistant-Bold',
-        fontSize: 23,
+        fontSize: '2rem',
     },
     smallHeader: {
         fontFamily: 'Assistant-Bold',
         color: 'black',
-        fontSize: 15
+        fontSize: '1.4rem'
     },
     boldBig: {
         fontFamily: 'Assistant-Bold',
         color: '#d65390',
-        fontSize: 35,
+        fontSize: '3.5rem',
     },
     smallButt: {
         borderWidth: 1,
@@ -33,5 +34,14 @@ export default StyleSheet.create({
         fontFamily: 'Assistant-Regular',
         color: 'black',
         fontSize: 23,
+    },
+    realSmallText: {
+        fontSize: '1.2rem',
+    },
+    smallText: {
+        fontSize: '1.4rem',
+    },
+    bigText: {
+        fontSize: '3rem',
     }
 });
