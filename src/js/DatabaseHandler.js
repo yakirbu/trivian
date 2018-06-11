@@ -155,7 +155,7 @@ class DatabaseHandler {
 
 
     getSortedDataOnce(path, orderBy, callback) {
-        return databases[DatabaseHandler.selected].ref(path).orderByChild(orderBy).limitToLast(5).once('value').then(function (snapshot) {
+        return databases[this.selected].ref(path).orderByChild(orderBy).limitToLast(5).once('value').then(function (snapshot) {
             if (snapshot.numChildren() > 0) {
                 //Array of JSON objcts
                 var names = []
