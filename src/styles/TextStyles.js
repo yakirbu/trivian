@@ -43,5 +43,8 @@ export default EStyleSheet.create({
     },
     bigText: {
         fontSize: '3rem',
+    },
+    questionText: {
+        marginTop: '1.3rem',
     }
 });

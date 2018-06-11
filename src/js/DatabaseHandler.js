@@ -29,6 +29,10 @@ class DatabaseHandler {
         let { height, width } = Dimensions.get('window');
         return height > 580 ? 13 : 9;
     }
+    getSizes(type) {
+        let { height, width } = Dimensions.get('window');
+        return type === "height" ? height : width;
+    }
 
     getAvailableDatabase(callback) {
         that.getDatabasesLoad(callback);
@@ -273,6 +277,7 @@ class DatabaseHandler {
             var user = {
                 name: name,
                 money: 0,
+                totalMoney: 0,
                 hearts: 1,
                 totalWins: 0,
                 phone: phone,

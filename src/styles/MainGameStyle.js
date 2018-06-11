@@ -9,7 +9,7 @@ export default EStyleSheet.create({
     centerContent: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     mainGameContainer: {
         display: 'flex',
@@ -19,13 +19,16 @@ export default EStyleSheet.create({
     },
     //top-bar
     topBarContainer: {
-        flex: 1,
         width: '100%',
+        backgroundColor: 'transparent',
+        height: '4rem',
+
     },
     topBarContainerWrapper: {
         flexDirection: 'row',
         paddingRight: '0.4rem',
         paddingTop: '0.4rem',
+        backgroundColor: 'transparent'
     },
     topBarLine: {
         backgroundColor: 'white',
@@ -164,13 +167,30 @@ export default EStyleSheet.create({
 
     /* GAME */
     curvedView: {
-        height: '4.0rem',
-        width: '16.0rem',
-        borderRadius: '32rem',
-        backgroundColor: '#644ddb',
+        flex: 1,
+        height: '3.4rem',
+        width: '100%'
+    },
+    questionContainer: {
+        height: '100%',
+        width: '85%'
+    },
+    questionImage: {
+        height: '15rem',
+        width: '15rem',
+        borderRadius: '1.5rem',
+        marginVertical: '1.4rem'
+    },
+    timerContainer: {
+        position: 'absolute',
+        top: 0,
 
     },
+    smallTimerContainer: {
+        paddingVertical: '1.2rem',
+    },
     /* END GAME */
+
 
 
     /* GENERAL */

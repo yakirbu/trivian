@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, AsyncStorage } from 'react-native';
-import IconE from 'react-native-vector-icons/Entypo';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewOverflow from 'react-native-view-overflow';
 import * as Progress from 'react-native-progress';
@@ -15,6 +14,7 @@ import Game from './Game';
 
 import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
+import PageTemplate from './PageTemplate';
 
 var that;
 var regCounter = 0;
@@ -195,39 +195,23 @@ export default class MainGame extends React.Component {
         }
         else {
             console.warn(that.state.startGame)
-            if (that.state.startGame) {
+            if (!that.state.startGame) {
                 //GAME-STARTED
                 return (<Game
                     user={that.state.user}
                     general={that.state.general}
                     game={that.state.currentGame}
+                    question={that.state.currentQuestion}
+                    questionData={that.state.currQuestionData}
                     startGame={() => that.startGame(false)} />)
             }
             else {
                 //MAIN-VIEW
                 return (
-                    <LinearGradient style={styles.mainGameContainer}
-                        colors={['#9e489d', '#8c4ece', '#644ddb']}>
-
-
-                        <View style={styles.topBarContainer}>
-                            <View style={[styles.mainGameContainer, styles.topBarContainerWrapper]}>
-                                <View style={{ flex: 1 }} />
-                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                    <View style={[styles.topBarLine]}>
-                                        <Text style={[textStyles.smallHeader, styles.topBarText]}>{"15"}</Text>
-                                    </View>
-                                    <IconE name="heart" style={[textStyles.bigText, { position: 'absolute' }]} color="#d83b2f" />
-                                </View>
-
-                            </View>
-                        </View>
-
-                        <View style={styles.gameBodyContainer}>
-                            {that.getGuestView()}
-                        </View>
-
-                    </LinearGradient>)
+                    <PageTemplate>
+                        {that.getGuestView()}
+                    </PageTemplate>
+                )
             }
         }
     }
