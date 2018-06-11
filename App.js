@@ -13,7 +13,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     I18nManager.allowRTL(false);
-    //console.disableYellowBox = true;
+    console.disableYellowBox = true;
   }
 
   render() {
