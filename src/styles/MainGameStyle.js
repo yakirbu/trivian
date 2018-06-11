@@ -197,6 +197,7 @@ export default EStyleSheet.create({
     coloredButton: {
         height: '3.5rem',
         borderRadius: '1.5rem',
+        width: '100%',
     },
     /* END GENERAL */
 });

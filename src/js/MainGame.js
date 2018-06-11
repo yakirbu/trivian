@@ -49,17 +49,17 @@ export default class MainGame extends React.Component {
                     startGame: game.val().status !== 'active' ? false : that.state.startGame,
                 });
 
-                console.warn(game.val());
-                console.log("currentQuestion in game is now: " + game.val().currentQuestionId);
+                //console.warn(game.val());
+                //console.log("currentQuestion in game is now: " + game.val().currentQuestionId);
 
                 //listen to current question changes
                 databaseHandler.listen('/Questions/' + game.key + "/" + game.val().currentQuestionId, (question) => {
-                    console.log("question-" + question.key)
+                    //console.log("question-" + question.key)
 
                     //getting current question data once
                     if (question.val().status == "results") {
                         databaseHandler.getDataOnce(["QuestionData", question.key], (qData) => {
-                            console.log("questionDataOnce-" + question.key)
+                            //console.log("questionDataOnce-" + question.key)
                             this.setState({ currQuestionData: qData.val() }, () => {
                                 this.setState({ currentQuestion: question.val() });
                             });
@@ -80,31 +80,31 @@ export default class MainGame extends React.Component {
 
     startGame(start) {
         that.setState({ startGame: start });
-        console.warn("started game");
+        //console.warn("started game");
     }
 
 
     async verifyUser(phone) {
-        console.warn("verify stage 1");
+        //console.warn("verify stage 1");
         databaseHandler.getDataOnceWhere(["Users"], ["phone", phone], async (childSnapshot) => {
             if (childSnapshot) {
                 //already verified
 
-                console.warn("verified " + childSnapshot.key);
+                //console.warn("verified " + childSnapshot.key);
 
                 databaseHandler.listen("Users/" + childSnapshot.key, (us) => {
                     that.setState({
                         loading: false,
                         user: us.val(),
                     }, () => {
-                        console.warn(us);
+                        //console.warn(us);
                     })
 
                 })
 
             }
             else {
-                console.warn("unverified");
+                //console.warn("unverified");
                 const name = await AsyncStorage.getItem('username');
                 if (name !== null) {
                     if (regCounter > 5)
@@ -129,21 +129,21 @@ export default class MainGame extends React.Component {
 
         auth.onAuthStateChanged(function (user) {
             if (user) {
-                console.warn("logged-in!");
+                //console.warn("logged-in!");
                 var userPhone = "0" + user.phoneNumber.replace("+972", "");
-                console.warn(userPhone);
+                //console.warn(userPhone);
 
                 that.verifyUser(userPhone);
 
 
-                console.log("logged in " + user.phoneNumber);
+                //console.log("logged in " + user.phoneNumber);
             } else {
                 // User is signed out.
                 // ...
                 if (that.state.user && that.state.user.createdAt)
                     databaseHandler.detachListener("Users/" + that.state.user.createdAt);
                 that.setState({ user: {}, loading: false });
-                console.warn("user logged out")
+                //console.warn("user logged out")
             }
 
         });
@@ -170,7 +170,7 @@ export default class MainGame extends React.Component {
 
 
     getGuestView() {
-        console.warn("test");
+        //console.warn("test");
         return (<GameDetails
             user={that.state.user}
             general={that.state.general}
@@ -194,7 +194,7 @@ export default class MainGame extends React.Component {
             return <Auth setUser={(u) => that.setUser(u)} />;
         }
         else {
-            console.warn(that.state.startGame)
+            //console.warn(that.state.startGame)
             if (!that.state.startGame) {
                 //GAME-STARTED
                 return (<Game

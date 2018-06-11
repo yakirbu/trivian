@@ -21,7 +21,7 @@ class HighScore extends React.Component {
     getTopUsers() {
         databaseHandler.getSortedDataOnce("Users", "points", (userData) => {
             var myJsonString = JSON.stringify(userData);
-            console.log(myJsonString);
+            //console.log(myJsonString);
         });
     }
 

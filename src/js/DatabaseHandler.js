@@ -101,7 +101,7 @@ class DatabaseHandler {
             databasesState[pos] = state;
         }
 
-        console.log(databasesState);
+        //console.log(databasesState);
     }
 
 
@@ -125,7 +125,7 @@ class DatabaseHandler {
 
     detachListeners() {
         questionListeners.forEach(item => {
-            console.log("remove-" + item + "-from listening");
+            //console.log("remove-" + item + "-from listening");
             databases[this.selected].ref(item).off();
             questionListeners = questionListeners.filter(e => e != item);
             listenNodes = listenNodes.filter(e => e != item);
@@ -137,7 +137,7 @@ class DatabaseHandler {
             var item = listenNodes.find(item => { return item === path });
             databases[this.selected].ref(item).off();
             listenNodes = listenNodes.filter(e => e != item);
-            console.warn(item);
+            //console.warn(item);
         }
     }
 
@@ -193,11 +193,11 @@ class DatabaseHandler {
 
         //update question num
         databases[this.selected].ref('/QuestionData/' + qid).transaction(function (qData) {
-            console.log("0choosen!!! " + qid);
+            //console.log("0choosen!!! " + qid);
             if (qData) {
-                console.log("1choosen!!!");
+                //console.log("1choosen!!!");
                 if (ans == 1) {
-                    console.log("2choosen!!!");
+                    //console.log("2choosen!!!");
                     qData.option1Num++;
                 }
                 else if (ans == 2) {
@@ -221,7 +221,7 @@ class DatabaseHandler {
 
 
     updateUserGameStatus(uid, status, callback) {
-        console.log("here-3");
+        //console.log("here-3");
         databases[this.selected].ref('/Users/' + uid).update({ gameStatus: status }).then((s) => {
             callback(s);
         })
@@ -240,7 +240,7 @@ class DatabaseHandler {
             callback(s);
         });
         */
-        console.log("adding-user-online");
+        //console.log("adding-user-online");
         that.getTime((time) => {
             var ref = databases[this.selected].ref('Connect');
             var gameId = this.selected + "-" + "random";
@@ -298,7 +298,7 @@ class DatabaseHandler {
 
 
     getTime(callback) {
-        console.log("getting time now!");
+        //console.log("getting time now!");
         axios.get('https://us-central1-questions-59ee6.cloudfunctions.net/app/api/time')
             .then(function (response) {
                 callback(response.data);
@@ -313,7 +313,7 @@ class DatabaseHandler {
 
     // REST ==========
     getDatabasesLoad(callback) {
-        console.log("getting time now!");
+        //console.log("getting time now!");
         axios.get('https://questions-59ee6.firebaseio.com/Databases.json')
             .then(function (response) {
                 var data = response.data;
@@ -330,7 +330,7 @@ class DatabaseHandler {
                 else
                     this.selected = 3;
 
-                console.log("db: " + db1 + "-" + db2 + "-" + db3);
+                //console.log("db: " + db1 + "-" + db2 + "-" + db3);
 
                 that.checkDBState(this.selected, true);
 
