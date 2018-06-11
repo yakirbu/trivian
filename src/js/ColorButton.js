@@ -47,13 +47,18 @@ class ColorButton extends React.Component {
             console.log("here1");
             switch (this.props.type) {
                 case 0:
-                    fixedStyle = { borderWidth: (0.08 * databaseHandler.getRem()), borderColor: '#bfbfbf' };
+                    fixedStyle = { borderWidth: (0.1 * databaseHandler.getRem()), borderColor: '#bfbfbf' };
                     buttonColors = ["white", "white"];
                     textColor = '#a9a9a9';
                     var textWeight = "Regular";
                     break;
                 case 1:
-
+                    buttonColors = ["#f07751", "#e35398"];
+                    break;
+                case 2:
+                    buttonColors = ["#bfbfbf", "#bfbfbf"];
+                    textColor = '#717171';
+                    var textWeight = "Regular";
                     break;
             }
         }

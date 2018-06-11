@@ -30,10 +30,11 @@ class Game extends React.Component {
             openImage: '',
             image: true,
             timeProgress: 100,
+            questionRunning: false,
 
             butt1: 0,
-            butt2: 1,
-            butt3: 2,
+            butt2: 0,
+            butt3: 0,
         }
 
     }
@@ -43,6 +44,46 @@ class Game extends React.Component {
         that.setState({ openImage: imgUrl });
     }
 
+
+    lockButtons(includesSelected) {
+        if (includesSelected) {
+            that.setState({
+                butt1: 2,
+                butt2: 2,
+                butt3: 2
+            })
+        }
+        else {
+            that.setState({
+                butt1: that.state.butt1 != 1 ? 2 : 1,
+                butt2: that.state.butt2 != 1 ? 2 : 1,
+                butt3: that.state.butt3 != 1 ? 2 : 1,
+            })
+        }
+    }
+
+    selectAnswer(num) {
+        var currVal = that.state["butt" + num];
+        if (currVal == 0 && that.state.questionRunning) {
+            var obj = {};
+            obj["butt" + num] = 1;
+            that.setState(obj, () => that.lockButtons(false));
+        }
+    }
+
+    resetButtons() {
+        that.setState({
+            butt1: 0,
+            butt2: 0,
+            butt3: 0
+        })
+    }
+
+
+    endQuestion() {
+        that.setState({ questionRunning: false });
+        that.lockButtons(false);
+    }
 
 
     calculateTime() {
@@ -67,7 +108,7 @@ class Game extends React.Component {
                     //obj.innerHTML = Math.round(0);
                 }
                 clearInterval(that.timer);
-                //this.endQuestion();
+                that.endQuestion();
             })
         }
     }
@@ -83,9 +124,11 @@ class Game extends React.Component {
                 //Alert.alert(t1 + " " + (t1 - t0) + " " + currTime);
                 //console.log((currTime - that.props.question.startTime) + " " + (QUESTION_TIME * 1000))
                 if ((currTime - that.props.question.startTime) < (QUESTION_TIME * 1000)) {
+
+                    that.setState({ questionRunning: true })
                     //there's timeleft for q
                     questionStarted = true;
-                    //this.resetOptions();
+                    that.resetButtons();
                     that.timer = setInterval(() => that.calculateTime(), 100);
 
                     var timeLeft = ((currTime - that.props.question.startTime) / 1000);
@@ -124,19 +167,25 @@ class Game extends React.Component {
     }
 
     render() {
+        if (!that.state.questionRunning
+            && that.state.butt1 != 2
+            && that.state.butt2 != 2
+            && that.state.butt3 != 2) {
+            that.lockButtons(false);
+        }
 
         var imgTestUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlQpGyNGeS-e1YW92cbhRFfEWna8TZN3IKdDsw1o07r8kJxLPlmQ";
         var rem = databaseHandler.getRem();
 
         return (
-            <PageTemplate>
+            <PageTemplate topBarColor={'gray'}>
 
                 <View style={[styles.centerContent, styles.mainGameContainer, {}]}>
 
 
                     <View style={[styles.centerContent, { width: '100%', flex: 3 }]}>
 
-                        {!this.state.image && <View style={{ position: 'absolute', height: '100%', width: '100%' }}>
+                        {this.state.image && <View style={{ position: 'absolute', height: '100%', width: '100%' }}>
                             <Image source={{ uri: imgTestUrl }} style={[{ flex: 1, resizeMode: 'cover' }]} />
                             <LinearGradient style={{ height: '100%', width: '100%', position: 'absolute' }} colors={['rgba(0,0,0,.1)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,1)']} />
                         </View>}
@@ -145,20 +194,10 @@ class Game extends React.Component {
                             <Image source={require('../images/curved.png')} style={[styles.curvedView, {}]} />
                         </View>
 
-                        {/* TIMER */}
-                        {/*
-                        <View style={[styles.smallTimerContainer, {}]}>
-                            <Progress.Bar
-                                borderWidth={0}
-                                progress={this.state.timeProgress / 10}
-                                borderRadius={0}
-                                width={databaseHandler.getSizes('width')}
-                                height={7}
-                                style={{ backgroundColor: '#c8c0cb' }} />
-                        </View> */}
 
-                        <View style={[styles.questionContainer, styles.centerContent, { paddingBottom: (3.4 * rem) }]}>
+                        {this.props.question.status !== 'off' && <View style={[styles.questionContainer, styles.centerContent, { paddingBottom: (3.4 * rem) }]}>
 
+                            {/* TIMER */}
                             <View style={[styles.smallTimerContainer, {}]}>
                                 <Progress.Circle
                                     showsText={true}
@@ -178,14 +217,14 @@ class Game extends React.Component {
                             </View>
 
                             <Text style={[textStyles.header, { color: 'white', fontFamily: 'Rubik-Bold' }]}>
-                                {"שאלה 6"}
+                                {"שאלה " + this.props.question.num}
                             </Text>
 
                             <Text style={[textStyles.header, textStyles.questionText, { textAlign: 'center', fontFamily: 'Rubik-Regular', color: 'white' }]}>
-                                {"מי היה הנשיא הראשון של מדינת ישראל?"}
+                                {this.props.question.question}
                             </Text>
 
-                            {/* IMAGE-QUESTION */}
+                            {/* IMAGE-QUESTION
 
                             {!this.state.image && <View>
                                 {this.state.openImage === '' ?
@@ -200,40 +239,37 @@ class Game extends React.Component {
                                             imageUrls={[{ url: this.state.openImage }]} />
                                     </Modal>
                                 }
-                            </View>}
+                            </View>} */}
 
 
-                        </View>
+                        </View>}
 
                     </View>
 
                     <View style={[{ width: '100%', flex: 2, backgroundColor: 'white' }, styles.centerContent]}>
-                        <View style={[styles.centerContent, { flex: 1, width: '80%', marginTop: (0.5 * rem), justifyContent: 'flex-start' }]}>
-
+                        {this.props.question.status !== 'off' && <View style={[styles.centerContent, { flex: 1, width: '80%', marginTop: (0.5 * rem), justifyContent: 'flex-start' }]}>
                             <ColorButton
-                                style={{ marginTop: 5, width: '80%' }}
+                                style={{ marginTop: 6, width: '80%' }}
                                 colors={['#c64d9e', '#7a4be5']}
-                                method={() => this.props.startGame()}
-                                text={"שמעון פרס"}
+                                method={() => this.selectAnswer(1)}
+                                text={this.props.question.option1}
                                 id={"1"}
                                 type={this.state.butt1} />
                             <ColorButton
-                                style={{ marginTop: 5, width: '80%' }}
+                                style={{ marginTop: 6, width: '80%' }}
                                 colors={['#c64d9e', '#7a4be5']}
-                                method={() => this.props.startGame()}
-                                text={"חיים וייצמן"}
+                                method={() => this.selectAnswer(2)}
+                                text={this.props.question.option2}
                                 id={"2"}
                                 type={this.state.butt2} />
                             <ColorButton
-                                style={{ marginTop: 5, width: '80%' }}
+                                style={{ marginTop: 6, width: '80%' }}
                                 colors={['#c64d9e', '#7a4be5']}
-                                method={() => this.props.startGame()}
-                                text={"ביבי נתניהו"}
+                                method={() => this.selectAnswer(3)}
+                                text={this.props.question.option3}
                                 id={"3"}
                                 type={this.state.butt3} />
-
-
-                        </View>
+                        </View>}
                     </View>
                 </View>
             </PageTemplate>
