@@ -12,6 +12,7 @@ import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
 import { auth, databaseHandler } from './DatabaseHandler';
 import Payment from './Payment';
+import ColorButton from './ColorButton';
 
 
 const getStyle = (vheight) => {
@@ -128,11 +129,13 @@ class GameDetails extends React.Component {
                                         </Text>
                                     </View>
                                 </View>
-                                <TouchableOpacity style={[styles.centerContent, styles.coloredButton, { marginTop: 15, width: '80%' }]} onPress={() => this.props.startGame()}>
-                                    <LinearGradient style={[styles.centerContent, styles.coloredButton, { width: '100%', height: '100%' }]} colors={['#c64d9e', '#7a4be5']} start={{ x: 0.0, y: 0.50 }} end={{ x: 1.0, y: 0.50 }}>
-                                        <Text style={[textStyles.smallHeader, { textAlign: 'center', color: 'white' }]}>השתתף</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
+
+                                <ColorButton
+                                    style={{ marginTop: 15, width: '80%' }}
+                                    colors={['#c64d9e', '#7a4be5']}
+                                    method={() => this.props.startGame()}
+                                    text={"השתתף"} />
+
                             </View>
                         }
 

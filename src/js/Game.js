@@ -12,6 +12,7 @@ import styles from '../styles/MainGameStyle';
 import textStyles from '../styles/TextStyles';
 
 import PageTemplate from './PageTemplate';
+import ColorButton from './ColorButton';
 
 
 
@@ -29,6 +30,10 @@ class Game extends React.Component {
             openImage: '',
             image: true,
             timeProgress: 100,
+
+            butt1: 0,
+            butt2: 1,
+            butt3: 2,
         }
 
     }
@@ -54,7 +59,7 @@ class Game extends React.Component {
             })
         }
         else {
-            console.log("end!")
+            //console.log("end!")
             that.setState({
                 timeProgress: 0
             }, () => {
@@ -76,7 +81,7 @@ class Game extends React.Component {
 
                 currTime = time - (t1 - t0);
                 //Alert.alert(t1 + " " + (t1 - t0) + " " + currTime);
-                console.log((currTime - that.props.question.startTime) + " " + (QUESTION_TIME * 1000))
+                //console.log((currTime - that.props.question.startTime) + " " + (QUESTION_TIME * 1000))
                 if ((currTime - that.props.question.startTime) < (QUESTION_TIME * 1000)) {
                     //there's timeleft for q
                     questionStarted = true;
@@ -84,7 +89,7 @@ class Game extends React.Component {
                     that.timer = setInterval(() => that.calculateTime(), 100);
 
                     var timeLeft = ((currTime - that.props.question.startTime) / 1000);
-                    console.log(timeLeft + " " + (timeLeft * 100));
+                    //console.log(timeLeft + " " + (timeLeft * 100));
                     if (timeLeft < QUESTION_TIME) {
                         /*
                         setTimeout(function () {
@@ -121,6 +126,7 @@ class Game extends React.Component {
     render() {
 
         var imgTestUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlQpGyNGeS-e1YW92cbhRFfEWna8TZN3IKdDsw1o07r8kJxLPlmQ";
+        var rem = databaseHandler.getRem();
 
         return (
             <PageTemplate>
@@ -129,16 +135,18 @@ class Game extends React.Component {
 
 
                     <View style={[styles.centerContent, { width: '100%', flex: 3 }]}>
-                        <View style={{ position: 'absolute', height: '100%', width: '100%' }}>
+
+                        {!this.state.image && <View style={{ position: 'absolute', height: '100%', width: '100%' }}>
                             <Image source={{ uri: imgTestUrl }} style={[{ flex: 1, resizeMode: 'cover' }]} />
                             <LinearGradient style={{ height: '100%', width: '100%', position: 'absolute' }} colors={['rgba(0,0,0,.1)', 'rgba(0,0,0,.5)', 'rgba(0,0,0,1)']} />
-                        </View>
+                        </View>}
 
                         <View style={{ position: 'absolute', left: 0, bottom: 0, zIndex: 10, width: '100%' }}>
                             <Image source={require('../images/curved.png')} style={[styles.curvedView, {}]} />
                         </View>
 
                         {/* TIMER */}
+                        {/*
                         <View style={[styles.smallTimerContainer, {}]}>
                             <Progress.Bar
                                 borderWidth={0}
@@ -147,25 +155,22 @@ class Game extends React.Component {
                                 width={databaseHandler.getSizes('width')}
                                 height={7}
                                 style={{ backgroundColor: '#c8c0cb' }} />
-                        </View>
+                        </View> */}
 
-                        <View style={[styles.questionContainer, styles.centerContent, {}]}>
-
-
-
+                        <View style={[styles.questionContainer, styles.centerContent, { paddingBottom: (3.4 * rem) }]}>
 
                             <View style={[styles.smallTimerContainer, {}]}>
                                 <Progress.Circle
                                     showsText={true}
-                                    size={48}
+                                    size={4 * rem}
                                     progress={this.state.timeProgress / 10}
                                     borderWidth={0}
-                                    thickness={4}
-                                    color={'green'}
+                                    thickness={0.40 * rem}
+                                    color={'#b54193'}
                                     unfilledColor={'#c8c0cb'}>
 
-                                    <View style={[{ flex: 1 }, styles.centerContent]}>
-                                        <Text style={[textStyles.header, textStyles.questionText, { flex: 1, textAlign: 'center', fontFamily: 'Rubik-Bold', color: 'white' }]}>
+                                    <View style={[{ flex: 1, }, styles.centerContent]}>
+                                        <Text style={[textStyles.header, textStyles.questionText, { fontSize: 1.5 * rem, flex: 1, textAlign: 'center', fontFamily: 'Rubik-Medium', color: 'white' }]}>
                                             {this.state.timeProgress != 100 ? this.state.timeProgress.toFixed(0) : 10}
                                         </Text>
                                     </View>
@@ -202,7 +207,33 @@ class Game extends React.Component {
 
                     </View>
 
-                    <View style={{ width: '100%', flex: 2, backgroundColor: 'white' }}>
+                    <View style={[{ width: '100%', flex: 2, backgroundColor: 'white' }, styles.centerContent]}>
+                        <View style={[styles.centerContent, { flex: 1, width: '80%', marginTop: (0.5 * rem), justifyContent: 'flex-start' }]}>
+
+                            <ColorButton
+                                style={{ marginTop: 5, width: '80%' }}
+                                colors={['#c64d9e', '#7a4be5']}
+                                method={() => this.props.startGame()}
+                                text={"שמעון פרס"}
+                                id={"1"}
+                                type={this.state.butt1} />
+                            <ColorButton
+                                style={{ marginTop: 5, width: '80%' }}
+                                colors={['#c64d9e', '#7a4be5']}
+                                method={() => this.props.startGame()}
+                                text={"חיים וייצמן"}
+                                id={"2"}
+                                type={this.state.butt2} />
+                            <ColorButton
+                                style={{ marginTop: 5, width: '80%' }}
+                                colors={['#c64d9e', '#7a4be5']}
+                                method={() => this.props.startGame()}
+                                text={"ביבי נתניהו"}
+                                id={"3"}
+                                type={this.state.butt3} />
+
+
+                        </View>
                     </View>
                 </View>
             </PageTemplate>

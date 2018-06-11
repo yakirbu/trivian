@@ -24,8 +24,8 @@ class HighScore extends React.Component {
 
     getTopUsers() {
         databaseHandler.getSortedDataOnce("Users", "points", (userData) => {
-           
-            
+            var myJsonString = JSON.stringify(userData);
+      
             var Data = that.state.tableData;
             //Each element in userData array looks like : ({"Name":Score},{"Name":Score},.....)
             for (var element = userData.length - 1; element >= 0; --element)
@@ -39,7 +39,6 @@ class HighScore extends React.Component {
                 }
             }
             that.setState({tableData:Data});
-            
         });
     }
 
