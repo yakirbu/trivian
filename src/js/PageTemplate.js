@@ -25,7 +25,7 @@ class PageTemplate extends React.Component {
                 colors={['#9e489d', '#8c4ece', '#644ddb']}>
 
 
-                <View style={styles.topBarContainer}>
+                <View style={[styles.topBarContainer, { backgroundColor: this.props.topBarColor ? this.props.topBarColor : 'transparent' }]}>
                     <View style={[styles.mainGameContainer, styles.topBarContainerWrapper]}>
                         <View style={{ flex: 1 }} />
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>

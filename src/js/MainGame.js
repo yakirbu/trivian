@@ -185,7 +185,7 @@ export default class MainGame extends React.Component {
     getMainView() {
         if (that.state.loading) {
             return (
-                <LinearGradient style={styles.mainGameContainer}
+                <LinearGradient style={[styles.mainGameContainer, styles.centerContent]}
                     colors={['#9e489d', '#8c4ece', '#644ddb']}>
                     <Progress.Circle size={40} color={'white'} borderWidth={4} indeterminate={true} />
                 </LinearGradient>);
